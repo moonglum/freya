@@ -216,7 +216,14 @@ races = {
   }
 }
 
-calculate_build_points = ->
+add_line_to_costs = (category, description, costs) ->
+  if $("#costs tbody .#{category}").length > 0
+    $("#costs tbody .#{category} td").attr("textContent", costs)
+  else
+    $("#costs tbody").append($("<tr/>", {'class': category})
+      .append($("<th/>", {'textContent': description}))
+      .append($("<td/>", {'textContent': costs}))
+    )
   sum = 0
   $("#costs tbody td").each (cell) ->
     sum+= parseInt(this.textContent)
@@ -233,27 +240,24 @@ $ ->
       
       if attribute_value?
         old_value = parseInt($(element).attr("value"))
-        if old_value < attribute_value.start_value or $(element).attr("value") == ""
-          $(element).attr("value", attribute_value.start_value)
-        else if old_value > attribute_value.max_value
-          $(element).attr("value", attribute_value.max_value)
-        
+        $(element).data("min_value", attribute_value.start_value)
         $(element).data("max_value", attribute_value.max_value)
-    if $("#costs tbody .race").length > 0
-      $("#costs tbody .race td").attr("textContent", races[selectedElement].build_points)
-    else
-      $("#costs tbody").append($("<tr/>", {'class': "race"})
-        .append($("<th/>", {'textContent': "Rasse"}))
-        .append($("<td/>", {'textContent': races[selectedElement].build_points}))
-      )
-    calculate_build_points()
+        $(element).change()
+    add_line_to_costs("race", "Rasse", race.build_points)
     
   $("#attributes input").change ->
     current_value = $(this).attr("value")
     max_value = $(this).data("max_value")
     if current_value > max_value
       $(this).attr("value", max_value)
-    else if current_value < 1
-      $(this).attr("value", 1)
+    else if current_value < $(this).data("min_value") or $(this).attr("value") == ""
+      $(this).attr("value", $(this).data("min_value"))
+    
+    sum = 0
+    $("#attributes input").each ->
+      unless this.value == ""
+        sum += (parseInt(this.value) - $(this).data("min_value"))
+    sum*= 10
+    add_line_to_costs("attributes", "Attribute", sum)
   
   $('#metatype').change()
