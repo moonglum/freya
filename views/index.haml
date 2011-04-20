@@ -1,7 +1,66 @@
 !!!
 %html
   %head
-    %title "Antenatal"
-    %script{:src => "jquery-1.5.2.min.js", :type => "script/javascript"}
+    %title Antenatal
+    %script{:src => "jquery-1.5.2.min.js", :type => "text/javascript"}
+    %script{:src => "application.js", :type => "text/javascript"}
   %body
-    Test
+    %table#costs
+      %thead
+        %tr
+          %th Anfangswert
+          %td 400
+      %tbody
+      %tfoot
+        %tr
+          %th Übrige GP
+          %td 400
+  
+    %form.basis_information
+      %label{:for => "name"} Name/Alias
+      %input{:type => "text", :name => "name"}
+      %label{:for => "metatype"} Metatyp
+      %select{:type => "text", :name => "metatype", :id => "metatype"}
+        %option{:value => "human"} Mensch
+        %option{:value => "orc"} Ork
+        %option{:value => "dwarf"} Zwerg
+        %option{:value => "elf"} Elf
+        %option{:value => "troll"} Troll
+      %label{:for => "age"} Alter
+      %input{:type => "text", :name => "age"}
+      %label{:for => "gender"} Geschlecht
+      %input{:type => "text", :name => "gender"}
+      %label{:for => "lifestyle"} Lebensstil
+      %input{:type => "text", :name => "lifestyle"}
+    
+    %form#attributes.attributes
+      %section
+        %h2 Körperliche Attribute
+        %label{:for => "body"} Konstitution
+        %input{:type => "text", :name => "body"}
+        %label{:for => "agility"} Geschicklichkeit
+        %input{:type => "text", :name => "agility"}
+        %label{:for => "reaction"} Reaktion
+        %input{:type => "text", :name => "reaction"}
+        %label{:for => "strength"} Stärke
+        %input{:type => "text", :name => "strength"}
+      %section    
+        %h2 Geistige Attribute
+        %label{:for => "charisma"} Charisma
+        %input{:type => "text", :name => "charisma"}
+        %label{:for => "intuition"} Intuition
+        %input{:type => "text", :name => "intuition"}
+        %label{:for => "logic"} Logik
+        %input{:type => "text", :name => "logic"}
+        %label{:for => "willpower"} Willenskraft
+        %input{:type => "text", :name => "willpower"}
+      %section
+        %h2 Besondere Attribute
+        %label{:for => "edge"} Edge
+        %input{:type => "text", :name => "edge"}
+        %label{:for => "essence"} Essenz
+        %input{:type => "text", :name => "essence"}
+        %label{:for => "initiative"} Initiative
+        %input{:type => "text", :name => "initiative"}
+        %label{:for => "magic"} Magie/Resonanz
+        %input{:type => "text", :name => "magic"}
