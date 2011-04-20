@@ -232,6 +232,17 @@ add_line_to_costs = (category, description, costs) ->
   result = parseInt($("#costs thead td").text()) - sum
   $("#costs tfoot td").text(result);
 
+build_points_for_attributes = ->
+  sum = 0
+  $("#attributes input").each ->
+    unless this.value == ""
+      sum += (parseInt(this.value) - $(this).data("min_value"))
+  sum*= 10
+  
+  sum+= 15 if name_of_maximum?
+  
+  return sum
+
 $ -> 
   $('#metatype').change (e) ->
     selectedElement = e.target.options[e.target.options.selectedIndex].value
@@ -249,6 +260,12 @@ $ ->
     
   $("#attributes input").change ->
     current_value = $(this).attr("value")
+    
+    excess = build_points_for_attributes() - 200
+    if excess > 0
+      current_value-= Math.ceil(excess / 10)
+      $(this).attr("value", current_value)
+    
     max_value = $(this).data("max_value")
     if current_value >= max_value
       if !name_of_maximum?
@@ -264,14 +281,6 @@ $ ->
     if $(this).attr("value") < $(this).data("max_value") and name_of_maximum == $(this).attr('name')
       name_of_maximum = null
     
-    sum = 0
-    $("#attributes input").each ->
-      unless this.value == ""
-        sum += (parseInt(this.value) - $(this).data("min_value"))
-    sum*= 10
-    
-    sum+= 15 if name_of_maximum?
-    
-    add_line_to_costs("attributes", "Attribute", sum)
+    add_line_to_costs("attributes", "Attribute", build_points_for_attributes())
   
   $('#metatype').change()
