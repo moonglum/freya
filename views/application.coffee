@@ -281,6 +281,9 @@ $ ->
     if $(this).attr("value") < $(this).data("max_value") and name_of_maximum == $(this).attr('name')
       name_of_maximum = null
     
+    initiative = parseInt($("#attributes input[name=intuition]").attr("value")) + parseInt($("#attributes input[name=logic]").attr("value"))
+    $("#calculated_attributes input[name=initiative]").attr("value", initiative)
+    
     add_line_to_costs("attributes", "Attribute", build_points_for_attributes())
   
   $("#special_attributes input").change ->
@@ -302,3 +305,4 @@ $ ->
     add_line_to_costs("special_attributes", "Spezielle Attribute", sum)
   
   $('#metatype').change()
+  

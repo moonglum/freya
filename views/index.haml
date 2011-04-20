@@ -4,6 +4,7 @@
     %title Antenatal
     %script{:src => "jquery-1.5.2.min.js", :type => "text/javascript"}
     %script{:src => "application.js", :type => "text/javascript"}
+    %link{:href => "style.css", :type => "text/css", :media => "screen", :rel => "stylesheet"}
   %body
     %table#costs
       %thead
@@ -61,8 +62,10 @@
       %input{:type => "text", :name => "edge"}
       %label{:for => "magic"} Magie/Resonanz
       %input{:type => "text", :name => "magic"}
+    
+    %form#calculated_attributes
+      %h2 Berechnete Attribute
       %label{:for => "essence"} Essenz
-      %input{:type => "text", :name => "essence"}
+      %input{:type => "text", :name => "essence", :disabled => "true", :value => 6}
       %label{:for => "initiative"} Initiative
-      %input{:type => "text", :name => "initiative"}
-      
+      %input{:type => "text", :name => "initiative", :disabled => "true"}
