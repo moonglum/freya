@@ -247,8 +247,8 @@ $ ->
   $('#metatype').change (e) ->
     selectedElement = e.target.options[e.target.options.selectedIndex].value
     race = races[selectedElement]
-    $("#attributes input").each (input_field) ->
-      element = $("#attributes input")[input_field]
+    $("#attributes input, #special_attributes input").each (input_field) ->
+      element = $("#attributes input, #special_attributes input")[input_field]
       attribute_value = race[element.name]
       
       if attribute_value?
@@ -282,5 +282,23 @@ $ ->
       name_of_maximum = null
     
     add_line_to_costs("attributes", "Attribute", build_points_for_attributes())
+  
+  $("#special_attributes input").change ->
+    current_value = $(this).attr("value")
+    if current_value < $(this).data("min_value") or $(this).attr("value") == ""
+      $(this).attr("value", $(this).data("min_value"))
+    else if current_value > $(this).data("max_value")
+      $(this).attr("value", $(this).data("max_value"))
+    
+    sum = 0
+    $("#special_attributes input").each ->
+      my_value = parseInt($(this).attr("value"))
+      
+      unless $(this).attr("value") == ""
+        if my_value == $(this).data("max_value")
+          sum += 15
+        sum += ((my_value - $(this).data("min_value")) *  10)
+    
+    add_line_to_costs("special_attributes", "Spezielle Attribute", sum)
   
   $('#metatype').change()
