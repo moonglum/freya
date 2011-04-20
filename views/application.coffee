@@ -310,5 +310,25 @@ $ ->
     
     add_line_to_costs("special_attributes", "Spezielle Attribute", sum)
   
-  $('#metatype').change()
+  $(".quality_cost").change ->
+    cost = 0
+    $(".quality_cost").each ->
+      cost += parseInt($(this).attr("value")) unless $(this).attr("value") == "" or $(this).attr("value") == "Zu hohe Kosten"
+      if cost > 25  
+        cost -= parseInt($(this).attr("value"))
+        $(this).attr("value", "Zu hohe Kosten")
+      
+    add_line_to_costs("good_quality", "Gaben", cost)
+  
+  $(".quality_earn").change ->
+    earn = 0
+    $(".quality_earn").each ->
+      earn += parseInt($(this).attr("value")) unless $(this).attr("value") == "" or $(this).attr("value") == "Zu viel Gewinn"
+      if earn > 25  
+        earn -= parseInt($(this).attr("value"))
+        $(this).attr("value", "Zu viel Gewinn")
+
+    add_line_to_costs("bad_quality", "Handicap", -earn)
+  
+  $('#metatype, .quality_cost, .quality_earn').change()
   

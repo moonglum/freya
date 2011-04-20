@@ -57,7 +57,7 @@
         %input{:type => "text", :name => "willpower"}
     
     %form#special_attributes
-      %h2 Besondere Attribute
+      %h2 Spezielle Attribute
       %label{:for => "edge"} Edge
       %input{:type => "text", :name => "edge"}
       %label{:for => "magic"} Magie/Resonanz
@@ -74,3 +74,22 @@
       %label{:for => "stun_damage"} Geistige Schadensleiste
       %input{:type => "text", :name => "stun_damage", :disabled => "true"}
       
+    %form#good_qualities
+      %h2 Gabe
+      %table
+        - 5.times do |number|
+          %tr
+            %th
+              %input{:type => "text", :name => "good_quality_#{number}"}
+            %th
+              %input{:type => "text", :name => "good_quality_#{number}_cost", :class => "quality_cost"}
+      
+    %form#bad_qualities
+      %h2 Handicap
+      %table
+        - 5.times do |number|
+          %tr
+            %th
+              %input{:type => "text", :name => "bad_quality_#{number}"}
+            %th
+              %input{:type => "text", :name => "bad_quality_#{number}_earn", :class => "quality_earn"}
