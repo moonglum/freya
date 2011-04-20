@@ -216,6 +216,8 @@ races = {
   }
 }
 
+name_of_maximum = null
+
 add_line_to_costs = (category, description, costs) ->
   if $("#costs tbody .#{category}").length > 0
     $("#costs tbody .#{category} td").attr("textContent", costs)
@@ -248,16 +250,28 @@ $ ->
   $("#attributes input").change ->
     current_value = $(this).attr("value")
     max_value = $(this).data("max_value")
-    if current_value > max_value
-      $(this).attr("value", max_value)
+    if current_value >= max_value
+      if !name_of_maximum?
+        $(this).attr("value", max_value)
+        name_of_maximum = $(this).attr('name')
+      else if name_of_maximum == $(this).attr('name')
+        $(this).attr("value", max_value)
+      else
+        $(this).attr("value", max_value - 1)
     else if current_value < $(this).data("min_value") or $(this).attr("value") == ""
       $(this).attr("value", $(this).data("min_value"))
+    
+    if $(this).attr("value") < $(this).data("max_value") and name_of_maximum == $(this).attr('name')
+      name_of_maximum = null
     
     sum = 0
     $("#attributes input").each ->
       unless this.value == ""
         sum += (parseInt(this.value) - $(this).data("min_value"))
     sum*= 10
+    
+    sum+= 15 if name_of_maximum?
+    
     add_line_to_costs("attributes", "Attribute", sum)
   
   $('#metatype').change()
