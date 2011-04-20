@@ -231,6 +231,7 @@ add_line_to_costs = (category, description, costs) ->
     sum+= parseInt(this.textContent)
   result = parseInt($("#costs thead td").text()) - sum
   $("#costs tfoot td").text(result);
+  $('input[name=nuyen]').attr("value", Math.min(result, 50) * 5000)
 
 build_points_for_attributes = ->
   sum = 0
