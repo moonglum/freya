@@ -1,0 +1,13 @@
+Missing Features
+----------------
+
+* Zauber
+* Aktions Fertigkeiten
+* Wissensfertigkeiten
+* Gegenstände
+  * Bioware
+  * Cyberware
+* evtl. Überprüfung ob Magier oder nicht und Mana anpassen
+* Startkapital (?)
+* Design
+  * Floating Counter
