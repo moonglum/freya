@@ -330,5 +330,18 @@ $ ->
 
     add_line_to_costs("bad_quality", "Handicap", -earn)
   
-  $('#metatype, .quality_cost, .quality_earn').change()
+  $(".connections").change ->
+    cost = 0
+    $(".connections").each ->
+      unless $(this).attr("value") == ""
+        value = parseInt($(this).attr("value")) 
+        if 1 < value <= 6
+          cost += value
+        else
+          $(this).attr("value", 1)
+          cost += 1
+      
+    add_line_to_costs("my_connections", "Connections", cost)
+  
+  $('#metatype, .quality_cost, .quality_earn, .connections').change()
   
