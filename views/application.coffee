@@ -284,6 +284,12 @@ $ ->
     initiative = parseInt($("#attributes input[name=intuition]").attr("value")) + parseInt($("#attributes input[name=logic]").attr("value"))
     $("#calculated_attributes input[name=initiative]").attr("value", initiative)
     
+    physical_damage = 8 + Math.ceil(parseInt($("#attributes input[name=body]").attr("value")) / 2)
+    $("#calculated_attributes input[name=physical_damage]").attr("value", physical_damage)
+    
+    stun_damage = 8 + Math.ceil(parseInt($("#attributes input[name=willpower]").attr("value")) / 2)
+    $("#calculated_attributes input[name=stun_damage]").attr("value", stun_damage)
+    
     add_line_to_costs("attributes", "Attribute", build_points_for_attributes())
   
   $("#special_attributes input").change ->
