@@ -312,10 +312,11 @@ $ ->
     add_line_to_costs("special_attributes", "Spezielle Attribute", sum)
   
   $(".quality_cost").change ->
+    maximum = 25 - parseInt($("#special_profession :selected").attr("cost"))
     cost = 0
     $(".quality_cost").each ->
       cost += parseInt($(this).attr("value")) unless $(this).attr("value") == "" or $(this).attr("value") == "Zu hohe Kosten"
-      if cost > 25  
+      if cost > maximum  
         cost -= parseInt($(this).attr("value"))
         $(this).attr("value", "Zu hohe Kosten")
       
@@ -344,5 +345,9 @@ $ ->
       
     add_line_to_costs("my_connections", "Connections", cost)
   
-  $('#metatype, .quality_cost, .quality_earn, .connections').change()
+  $("#special_profession").change ->
+    add_line_to_costs("my_special_profession", "Spezielle Profession", $("#special_profession :selected").attr("cost"))
+    $(".quality_cost").change()
+  
+  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession').change()
   

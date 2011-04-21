@@ -21,7 +21,7 @@
       %label{:for => "name"} Name/Alias
       %input{:type => "text", :name => "name"}
       %label{:for => "metatype"} Metatyp
-      %select{:type => "text", :name => "metatype", :id => "metatype"}
+      %select{:name => "metatype", :id => "metatype"}
         %option{:value => "human"} Mensch
         %option{:value => "orc"} Ork
         %option{:value => "dwarf"} Zwerg
@@ -33,6 +33,13 @@
       %input{:type => "text", :name => "gender"}
       %label{:for => "lifestyle"} Lebensstil
       %input{:type => "text", :name => "lifestyle"}
+      %label{:for => "special_profession"} Spezielle Profession
+      %select{:type => "text", :name => "special_profession", :id => "special_profession"}
+        %option{:value => "none", :cost => 0} Keine
+        %option{:value => "magicians", :cost => 15} Zauberer
+        %option{:value => "adept", :cost => 5} Adept
+        %option{:value => "mystic_adept", :cost => 10} Magieradept
+        %option{:value => "technomancer", :cost => 5} Technomancer
     
     %form#attributes
       %section
