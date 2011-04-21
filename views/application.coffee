@@ -348,6 +348,17 @@ $ ->
   $("#special_profession").change ->
     add_line_to_costs("my_special_profession", "Spezielle Profession", $("#special_profession :selected").attr("cost"))
     $(".quality_cost").change()
+    
+    if $("#special_profession :selected").attr("value") == "none"
+      $("input[name=magic]").attr("value", 1)
+      $("#special_attributes input").change()
+      $("label[for=magic], input[name=magic]").fadeOut()
+    else
+      if $("#special_profession :selected").attr("value") == "technomancer"
+        $("label[for=magic]").text("Resonanz")
+      else
+        $("label[for=magic]").text("Magie")
+      $("label[for=magic], input[name=magic]").fadeIn()
   
   $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession').change()
   
