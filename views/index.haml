@@ -109,6 +109,24 @@
             %td
               %input{:type => "text", :name => "bad_quality_#{number}_earn", :class => "quality_earn"}
     
+    %form#skill_groups
+      - @skill_groups.each do |group, members|
+        %table
+          %thead
+            %tr
+              %th= group
+              %td
+                %input{:type => "text", :name => group, :value => 0}
+              %td
+          %tbody
+            - members.each do |member|
+              %tr
+                %th= member
+                %td
+                  %input{:type => "text", :name => "relative_#{member}", :class => "relative", :value => 0}
+                %td
+                  %input{:type => "text", :name => "absolute_#{member}", :class => "absolute", :disabled => "true", :value => 0}
+                
     %form#connections
       %h2 Connections
       %table
@@ -118,13 +136,14 @@
             %td Einfluss
             %td Loyalität
         - 5.times do |number|
-          %tr
-            %th
-              %input{:type => "text", :name => "connections_#{number}"}
-            %td
-              %input{:type => "text", :name => "connections_#{number}_cost_1", :class => "connections"}
-            %td
-              %input{:type => "text", :name => "connections_#{number}_cost_2", :class => "connections"}
+          %tbody
+            %tr
+              %th
+                %input{:type => "text", :name => "connections_#{number}"}
+              %td
+                %input{:type => "text", :name => "connections_#{number}_cost_1", :class => "connections"}
+              %td
+                %input{:type => "text", :name => "connections_#{number}_cost_2", :class => "connections"}
     
     %form#nuyen
       %h2 Nuyen &yen;

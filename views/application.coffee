@@ -360,5 +360,32 @@ $ ->
         $("label[for=magic]").text("Magie")
       $("label[for=magic], input[name=magic]").fadeIn()
   
-  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession').change()
+  $("#skill_groups input").change ->
+    cost = 0
+    $("#skill_groups table").each ->
+      my_table = this
+      group_value = parseInt($("thead input", my_table).attr("value"))
+      if group_value < 0
+        group_value = 0
+        $("thead input", my_table).attr("value", 0)
+      else if group_value > 4
+        group_value = 4
+        $("thead input", my_table).attr("value", 4)
+      cost += (group_value * 10)
+      $("tbody tr", my_table).each ->
+        relative_value = parseInt($(".relative", this).attr("value"))
+        absolute_value = group_value + relative_value
+        if absolute_value < 0
+          relative_value = 0
+          absolute_value = 0
+        else if absolute_value > 6
+          relative_value = 6 - group_value
+          absolute_value = group_value + relative_value
+        $(".relative", this).attr("value", relative_value)
+        $(".absolute", this).attr("value", absolute_value)
+        cost += (relative_value * 4)
+      add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
+      
+  
+  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession, #skill_groups input').change()
   
