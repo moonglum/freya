@@ -118,6 +118,7 @@
               %td
                 %input{:type => "text", :name => group, :value => 0}
               %td
+              %td
           %tbody
             - members.each do |member|
               %tr
@@ -126,6 +127,10 @@
                   %input{:type => "text", :name => "relative_#{member}", :class => "relative", :value => 0}
                 %td
                   %input{:type => "text", :name => "absolute_#{member}", :class => "absolute", :disabled => "true", :value => 0}
+                %td
+                  %input{:type => "checkbox", :name => "specialize_#{member}_selected", :class => "specialize_select"}
+                  %input{:type => "text", :name => "specialize_#{member}", :class => "specialize", :value => ""}
+                  
                 
     %form#connections
       %h2 Connections

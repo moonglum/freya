@@ -383,9 +383,16 @@ $ ->
           absolute_value = group_value + relative_value
         $(".relative", this).attr("value", relative_value)
         $(".absolute", this).attr("value", absolute_value)
+        
+        if $(".specialize_select", this).attr("checked")
+          cost += 2
+          $(".specialize", this).fadeIn()
+        else
+          $(".specialize", this).fadeOut()
+        
         cost += (relative_value * 4)
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
   
-  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession, #skill_groups input').change()
+  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession, #skill_groups input:first').change()
   
