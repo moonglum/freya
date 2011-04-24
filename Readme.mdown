@@ -8,7 +8,8 @@ Freya
 Missing Features
 ----------------
 
-Currently, it is not checked, if or if not the rule for maxima in the skills are met.
+* Currently, it is not checked, if or if not the rule for maxima in the skills are met.
+
 
 * Zauber: Großes Textfeld
 * Fertigkeiten nur für Zauberer/Technomancer - noch einfügen.
