@@ -246,33 +246,41 @@ build_points_for_attributes = ->
   
   return sum
 
-table_change= (selector, german_name, columns, type) ->
+table_change= (selector, german_name, columns, specialization=false, type="costs") ->
   unoccupated_rows = 0
   cost = 0
   $("##{selector} tbody tr").each ->
-    if type == undefined
+    if type == "costs"
       cost_cell = $(".#{selector}", this)
     else if type == "nuyen"
       cost_cell = $(".#{selector}_nuyen", this)
     else if type == "essence"
       cost_cell = $(".#{selector}_essence", this)
-      
+    
+    if specialization
+      if $(".specialize_select", this).attr("checked")
+        cost += 2
+        $(".specialize", this).fadeIn()
+      else
+        $(".specialize", this).fadeOut()
+    
     if cost_cell.attr("value") == ""
       unoccupated_rows += 1
     else
       cost += parseFloat(cost_cell.attr("value"))
   if unoccupated_rows == 1
+    row = $("<tr/>").append($("<th/>").append($("<input/>", {'type' : "text"})))
+    
     if columns == 2
-      $("##{selector} tbody").append($("<tr/>")
-        .append($("<th/>").append($("<input/>", {'type' : "text"})))
-        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
-      )
+      row.append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
     else if columns == 3
-      $("##{selector} tbody").append($("<tr/>")
-        .append($("<th/>").append($("<input/>", {'type' : "text"})))
-        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector + "_nuyen"})))
-        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector + "_essence"})))
-      )
+      row.append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector + "_nuyen"})))
+         .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector + "_essence"})))
+    
+    if specialization
+      row.append($("<td/>").append($("<input/>", {'type' : "checkbox", 'class' : "specialize_select"})))
+    
+    $("##{selector} tbody").append(row)
   
   add_line_to_costs("#{selector}_calculation", german_name, cost, type)
 
@@ -430,7 +438,7 @@ $ ->
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
   $("#single_skills").delegate("input", "change", ->
-    table_change("single_skills", "Einzelne Fertigkeiten", 2)
+    table_change("single_skills", "Einzelne Fertigkeiten", 2, true)
   )
   
   $("#spells").delegate("input", "change", ->
@@ -438,21 +446,21 @@ $ ->
   )
   
   $("#knowledge").delegate("input", "change", ->
-    table_change("knowledge", "Wissen", 2)
+    table_change("knowledge", "Wissen", 2, true)
   )
   
   $("#normal_items").delegate("input", "change", ->
-    table_change("normal_items", "Normale Gegenstaende", 3, "nuyen")
+    table_change("normal_items", "Normale Gegenstaende", 3, false, "nuyen")
   )
   
   $("#bioware").delegate("input", "change", ->
-    table_change("bioware", "Bioware", 3, "nuyen")
-    table_change("bioware", "Bioware", 3, "essence")
+    table_change("bioware", "Bioware", 3, false, "nuyen")
+    table_change("bioware", "Bioware", 3, false, "essence")
   )
   
   $("#cyberware").delegate("input", "change", ->
-    table_change("cyberware", "Cyberware", 3, "nuyen")
-    table_change("cyberware", "Cyberware", 3, "essence")
+    table_change("cyberware", "Cyberware", 3, false, "nuyen")
+    table_change("cyberware", "Cyberware", 3, false, "essence")
   )
   
   $('#metatype, 
