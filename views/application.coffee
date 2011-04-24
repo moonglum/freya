@@ -418,5 +418,17 @@ $ ->
     table_change("spells", "Zauber")
   )
   
-  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession, #skill_groups input:first, #spells input:first').change()
+  $("#knowledge").delegate("input", "change", ->
+    table_change("knowledge", "Wissen")
+  )
+  
+  $('#metatype, 
+    .quality_cost, 
+    .quality_earn, 
+    .connections, 
+    #special_profession, 
+    #skill_groups input:first, 
+    #spells input:first,
+    #knowledge input:first')
+  .change()
   

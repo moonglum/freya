@@ -167,6 +167,21 @@
                 %td
                   %input{:type => "text", :name => "spells_#{number}_cost", :class => "spells"}
       
+      %section#knowledge
+        %h2 Wissen
+        %table
+          %thead
+            %tr
+              %th Name
+              %td GP
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "knowledge_#{number}"}
+                %td
+                  %input{:type => "text", :name => "knowledge_#{number}_cost", :class => "knowledge"}
+      
       %section#nuyen
         %h2 Nuyen &yen;
         %label{:for => "nuyen"} Nuyen
