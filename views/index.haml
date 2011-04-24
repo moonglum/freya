@@ -6,17 +6,28 @@
     %script{:src => "application.js", :type => "text/javascript"}
     %link{:href => "style.css", :type => "text/css", :media => "screen", :rel => "stylesheet"}
   %body
-    %table#costs
-      %thead
-        %tr
-          %th Anfangswert
-          %td 400
-      %tbody
-      %tfoot
-        %tr
-          %th Übrige GP
-          %td 400
-  
+    #head_display
+      %table#costs
+        %thead
+          %tr
+            %th Anfangs GP
+            %td 400
+        %tbody
+        %tfoot
+          %tr
+            %th Übrige GP
+            %td 400
+      %table#nuyen
+        %thead
+          %tr
+            %th Anfangs &yen;
+            %td 0
+        %tbody
+        %tfoot
+          %tr
+            %th Übrige &yen;
+            %td 0
+          
     %form
       %section.basis_information
         %label{:for => "name"} Name/Alias
@@ -182,10 +193,50 @@
                 %td
                   %input{:type => "text", :name => "knowledge_#{number}_cost", :class => "knowledge"}
       
-      %section#nuyen
-        %h2 Nuyen &yen;
-        %label{:for => "nuyen"} Nuyen
-        %input{:type => "text", :name => "nuyen", :disabled => "true"}
+      %section#normal_items
+        %h2 Normale Gegenstände
+        %table
+          %thead
+            %tr
+              %th Name
+              %td &yen;
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "normal_item_#{number}"}
+                %td
+                  %input{:type => "text", :name => "normal_item_#{number}_cost", :class => "normal_items"}
+
+      %section#bioware
+        %h2 Bioware
+        %table
+          %thead
+            %tr
+              %th Name
+              %td &yen;
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "bioware_#{number}"}
+                %td
+                  %input{:type => "text", :name => "bioware_#{number}_cost", :class => "bioware"}
+                  
+      %section#cyberware
+        %h2 Cyberware
+        %table
+          %thead
+            %tr
+              %th Name
+              %td &yen;
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "cyberware_#{number}"}
+                %td
+                  %input{:type => "text", :name => "cyberware_#{number}_cost", :class => "cyberware"}
   
     %foot
       %p 

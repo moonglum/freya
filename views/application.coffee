@@ -218,20 +218,34 @@ races = {
 
 name_of_maximum = null
 
-add_line_to_costs = (category, description, costs) ->
-  if $("#costs tbody .#{category}").length > 0
-    $("#costs tbody .#{category} td").attr("textContent", costs)
+add_line_to_costs = (category, description, costs, money=false) ->
+  if money
+    if $("#nuyen tbody .#{category}").length > 0
+      $("#nuyen tbody .#{category} td").attr("textContent", costs)
+    else
+      $("#nuyen tbody").append($("<tr/>", {'class': category})
+        .append($("<th/>", {'textContent': description}))
+        .append($("<td/>", {'textContent': costs}))
+      )
+    sum = 0
+    $("#nuyen tbody td").each (cell) ->
+      sum+= parseInt(this.textContent)
+    result = parseInt($("#nuyen thead td").text()) - sum
+    $("#nuyen tfoot td").text(result)
   else
-    $("#costs tbody").append($("<tr/>", {'class': category})
-      .append($("<th/>", {'textContent': description}))
-      .append($("<td/>", {'textContent': costs}))
-    )
-  sum = 0
-  $("#costs tbody td").each (cell) ->
-    sum+= parseInt(this.textContent)
-  result = parseInt($("#costs thead td").text()) - sum
-  $("#costs tfoot td").text(result);
-  $('input[name=nuyen]').attr("value", Math.min(result, 50) * 5000)
+    if $("#costs tbody .#{category}").length > 0
+      $("#costs tbody .#{category} td").attr("textContent", costs)
+    else
+      $("#costs tbody").append($("<tr/>", {'class': category})
+        .append($("<th/>", {'textContent': description}))
+        .append($("<td/>", {'textContent': costs}))
+      )
+    sum = 0
+    $("#costs tbody td").each (cell) ->
+      sum+= parseInt(this.textContent)
+    result = parseInt($("#costs thead td").text()) - sum
+    $("#costs tfoot td").text(result)
+    $("#nuyen thead td").text(Math.min(result, 50) * 5000)
 
 build_points_for_attributes = ->
   sum = 0
@@ -246,7 +260,7 @@ build_points_for_attributes = ->
 
 $ -> 
   $(window).scroll ->
-    $("#costs").stop().animate({'top': $("body").scrollTop() + 10})
+    $("#head_display").stop().animate({'top': $("body").scrollTop() + 10})
     
 
   $('#metatype').change (e) ->
@@ -397,7 +411,7 @@ $ ->
         cost += (relative_value * 4)
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
-  table_change= (selector, german_name) ->
+  table_change= (selector, german_name, costs_money) ->
     unoccupated_rows = 0
     cost = 0
     $("##{selector} tbody tr").each ->
@@ -412,7 +426,7 @@ $ ->
         .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
       )
     
-    add_line_to_costs("#{selector}_calculation", german_name, cost)  
+    add_line_to_costs("#{selector}_calculation", german_name, cost, costs_money)  
   
   $("#spells").delegate("input", "change", ->
     table_change("spells", "Zauber")
@@ -422,6 +436,18 @@ $ ->
     table_change("knowledge", "Wissen")
   )
   
+  $("#normal_items").delegate("input", "change", ->
+    table_change("normal_items", "Normale Gegenstaende", true)
+  )
+  
+  $("#bioware").delegate("input", "change", ->
+    table_change("bioware", "Bioware", true)
+  )
+  
+  $("#cyberware").delegate("input", "change", ->
+    table_change("cyberware", "Cyberware", true)
+  )
+  
   $('#metatype, 
     .quality_cost, 
     .quality_earn, 
@@ -429,6 +455,9 @@ $ ->
     #special_profession, 
     #skill_groups input:first, 
     #spells input:first,
-    #knowledge input:first')
+    #knowledge input:first,
+    #normal_items input:first,
+    #bioware input:first,
+    #cyberware input:first')
   .change()
   
