@@ -245,6 +245,10 @@ build_points_for_attributes = ->
   return sum
 
 $ -> 
+  $(window).scroll ->
+    $("#costs").stop().animate({'top': $("body").scrollTop() + 10})
+    
+
   $('#metatype').change (e) ->
     selectedElement = e.target.options[e.target.options.selectedIndex].value
     race = races[selectedElement]
