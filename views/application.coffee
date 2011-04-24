@@ -234,7 +234,7 @@ add_line_to_costs = (category, description, costs, type="costs") ->
   
   if type == "costs"
     $("#nuyen thead td").text(Math.min(result, 50) * 5000)
-    knp = parseInt($("input[name=logic]").attr("value")) + parseInt($("input[name=intuition]").attr("value"))
+    knp = parseInt($("input[name=logic]").attr("value")) + parseInt($("input[name=intuition]").attr("value")) + parseInt($("input[name=additional_knowledge]").attr("value"))
     $("#knowledgepoints thead td").text(knp * 3)
 
 build_points_for_attributes = ->
@@ -259,17 +259,18 @@ table_change= (selector, german_name, columns, specialization=false, type="costs
       else
         $(".specialize", this).fadeOut()
     else
-      if type == "nuyen"
+      if type == "costs" or type == "knowledgepoints"
+        cost_cell = $(".#{selector}", this)
+        val = parseInt(cost_cell.attr("value"))
+        unless val == NaN
+          if val < 0
+            cost_cell.attr("value", 0)
+          else if val > 6
+            cost_cell.attr("value", 6)
+      else if type == "nuyen"
         cost_cell = $(".#{selector}_nuyen", this)
       else if type == "essence"
         cost_cell = $(".#{selector}_essence", this)
-      else # type == "costs" || "knowledgepoints"
-       cost_cell = $(".#{selector}", this)
-       cost = parseFloat(cost_cell.attr("value"))
-       if cost < 0
-         cost_cell.attr("value", 0)
-       else if cost >= 6
-         cost_cell.attr("value", 6)
       
       if cost_cell.attr("value") == ""
         unoccupated_rows += 1
@@ -471,6 +472,10 @@ $ ->
     table_change("cyberware", "Cyberware", 3, false, "nuyen")
     table_change("cyberware", "Cyberware", 3, false, "essence")
   )
+  
+  $("input.additional_knowledge").change ->
+    cost = parseInt($("input.additional_knowledge").attr("value")) * 2
+    add_line_to_costs("additional_knowledge", "Zus. Wissenspunkte", cost)
   
   $('#metatype, 
     .quality_cost, 

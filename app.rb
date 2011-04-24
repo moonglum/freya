@@ -13,10 +13,14 @@ get "/" do
     "Nahkampf" => ["Klingenwaffen", "Knueppel", "Waffenloser Kampf"],
     "Natur" => ["Navigation", "Spurenlesen", "Survival"],
     "Cracken" => ["Elektronische Kriegsfuehrung", "Hacking", "Matrixkampf"],
-    "Einfluss" => ["Fuehrung", "Gebraeuche", "Ueberreden", "Verhandlung"]
+    "Einfluss" => ["Fuehrung", "Gebraeuche", "Ueberreden", "Verhandlung"],
+    "Beschwoeren" => ["Binden", "Herbeirufen", "Verbannen"],
+    "Hexerei" => ["Antimagie", "Ritualzauberei", "Spruchzauberei"],
+    "Tasken" => ["Dekompilieren", "Kompilieren", "Registieren"]
   }
   haml :index 
 end
+
 
 get "/coffee.js" do
   coffee :application

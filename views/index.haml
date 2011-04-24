@@ -230,6 +230,11 @@
             %tr
               %th Name
               %td GP
+            %tr
+              %th
+                Zusaetzliche Wissenspunkte
+              %td
+                %input{:type => "text", :name => "additional_knowledge", :class => "additional_knowledge", :value => 0}
           %tbody
             - 5.times do |number|
               %tr
