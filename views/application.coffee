@@ -429,6 +429,10 @@ $ ->
         cost += (relative_value * 4)
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
+  $("#single_skills").delegate("input", "change", ->
+    table_change("single_skills", "Einzelne Fertigkeiten", 2)
+  )
+  
   $("#spells").delegate("input", "change", ->
     table_change("spells", "Zauber", 2)
   )
@@ -457,6 +461,7 @@ $ ->
     .connections, 
     #special_profession, 
     #skill_groups input:first, 
+    #single_skill input:first, 
     #spells input:first,
     #knowledge input:first,
     #normal_items input:first,

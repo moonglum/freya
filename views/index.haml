@@ -138,6 +138,7 @@
                   %input{:type => "text", :name => "bad_quality_#{number}_earn", :class => "quality_earn"}
     
       %section#skill_groups
+        %h2 Fertigkeitsgruppen
         - @skill_groups.each do |group, members|
           %table
             %thead
@@ -158,6 +159,21 @@
                   %td
                     %input{:type => "checkbox", :name => "specialize_#{member}_selected", :class => "specialize_select"}
                     %input{:type => "text", :name => "specialize_#{member}", :class => "specialize", :value => ""}
+      
+      %section#single_skills
+        %h2 Einzelne Fertigkeiten
+        %table
+          %thead
+            %tr
+              %th Name
+              %td Punkte
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "skill_#{number}"}
+                %td
+                  %input{:type => "text", :name => "skill_#{number}_cost", :class => "single_skills"}
                     
       %section#connections
         %h2 Connections

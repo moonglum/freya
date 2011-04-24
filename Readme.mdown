@@ -10,6 +10,3 @@ Missing Features
 
 * Currently, it is not checked, if or if not the rule for maxima in the skills are met.
 * Multilinguality
-* Maximum for Spells, Knowledge Skills
-* Add Mage/Technomancer only skills
-* Skills without Group?!
