@@ -250,24 +250,25 @@ table_change= (selector, german_name, columns, specialization=false, type="costs
   unoccupated_rows = 0
   cost = 0
   $("##{selector} tbody tr").each ->
-    if type == "costs"
-      cost_cell = $(".#{selector}", this)
-    else if type == "nuyen"
-      cost_cell = $(".#{selector}_nuyen", this)
-    else if type == "essence"
-      cost_cell = $(".#{selector}_essence", this)
-    
-    if specialization
-      if $(".specialize_select", this).attr("checked")
+    if type == "specialize"
+      if $(".#{selector}_specialize", this).attr("checked")
         cost += 2
         $(".specialize", this).fadeIn()
       else
         $(".specialize", this).fadeOut()
-    
-    if cost_cell.attr("value") == ""
-      unoccupated_rows += 1
     else
-      cost += parseFloat(cost_cell.attr("value"))
+      if type == "costs"
+        cost_cell = $(".#{selector}", this)
+      else if type == "nuyen"
+        cost_cell = $(".#{selector}_nuyen", this)
+      else if type == "essence"
+        cost_cell = $(".#{selector}_essence", this)
+      else 
+      
+      if cost_cell.attr("value") == ""
+        unoccupated_rows += 1
+      else
+        cost += parseFloat(cost_cell.attr("value"))
   if unoccupated_rows == 1
     row = $("<tr/>").append($("<th/>").append($("<input/>", {'type' : "text"})))
     
@@ -282,11 +283,11 @@ table_change= (selector, german_name, columns, specialization=false, type="costs
     
     $("##{selector} tbody").append(row)
   
-  add_line_to_costs("#{selector}_calculation", german_name, cost, type)
+  add_line_to_costs("#{selector}_#{type}_calculation", german_name, cost, if type == "specialize" then "costs" else type)
 
 $ -> 
   $(window).scroll ->
-    $("#head_display").stop().animate({'top': $("body").scrollTop() + 10})
+    $("#head_display").stop().animate({'top': $(document).scrollTop() + 10})
     
 
   $('#metatype').change (e) ->
@@ -439,6 +440,7 @@ $ ->
       
   $("#single_skills").delegate("input", "change", ->
     table_change("single_skills", "Einzelne Fertigkeiten", 2, true)
+    table_change("single_skills", "Einzelne Fertigkeiten (Spez.)", 2, true, "specialize")
   )
   
   $("#spells").delegate("input", "change", ->
@@ -447,6 +449,7 @@ $ ->
   
   $("#knowledge").delegate("input", "change", ->
     table_change("knowledge", "Wissen", 2, true)
+    table_change("knowledge", "Wissen (Spez.)", 2, true, "specialize")
   )
   
   $("#normal_items").delegate("input", "change", ->
@@ -470,8 +473,10 @@ $ ->
     #special_profession, 
     #skill_groups input:first, 
     #single_skill input:first, 
+    #single_skill input[type=checkbox]:first, 
     #spells input:first,
     #knowledge input:first,
+    #knowledge input[type=checkbox]:first,
     #normal_items input:first,
     #bioware input:first,
     #cyberware input:first')
