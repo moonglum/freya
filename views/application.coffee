@@ -262,10 +262,17 @@ table_change= (selector, german_name, columns, type) ->
     else
       cost += parseFloat(cost_cell.attr("value"))
   if unoccupated_rows == 1
-    $("##{selector} tbody").append($("<tr/>")
-      .append($("<th/>").append($("<input/>", {'type' : "text"})))
-      .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
-    )
+    if columns == 2
+      $("##{selector} tbody").append($("<tr/>")
+        .append($("<th/>").append($("<input/>", {'type' : "text"})))
+        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
+      )
+    else if columns == 3
+      $("##{selector} tbody").append($("<tr/>")
+        .append($("<th/>").append($("<input/>", {'type' : "text"})))
+        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector + "_nuyen"})))
+        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector + "_essence"})))
+      )
   
   add_line_to_costs("#{selector}_calculation", german_name, cost, type)
 
