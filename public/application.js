@@ -219,7 +219,7 @@
   };
   name_of_maximum = null;
   add_line_to_costs = function(category, description, costs, type) {
-    var result, sum;
+    var knp, result, sum;
     if (type == null) {
       type = "costs";
     }
@@ -241,7 +241,9 @@
     result = parseFloat($("#" + type + " thead td").text()) - sum;
     $("#" + type + " tfoot td").text(result);
     if (type === "costs") {
-      return $("#nuyen thead td").text(Math.min(result, 50) * 5000);
+      $("#nuyen thead td").text(Math.min(result, 50) * 5000);
+      knp = parseInt($("input[name=logic]").attr("value")) + parseInt($("input[name=intuition]").attr("value")) + parseInt($("input[name=additional_knowledge]").attr("value"));
+      return $("#knowledgepoints thead td").text(knp * 3);
     }
   };
   build_points_for_attributes = function() {
@@ -258,51 +260,80 @@
     }
     return sum;
   };
-  table_change = function(selector, german_name, columns, type) {
-    var cost, unoccupated_rows;
+  table_change = function(selector, german_name, columns, specialization, type) {
+    var cost, row, unoccupated_rows;
+    if (specialization == null) {
+      specialization = false;
+    }
+    if (type == null) {
+      type = "costs";
+    }
     unoccupated_rows = 0;
     cost = 0;
     $("#" + selector + " tbody tr").each(function() {
-      var cost_cell;
-      if (type === void 0) {
-        cost_cell = $("." + selector, this);
-      } else if (type === "nuyen") {
-        cost_cell = $("." + selector + "_nuyen", this);
-      } else if (type === "essence") {
-        cost_cell = $("." + selector + "_essence", this);
-      }
-      if (cost_cell.attr("value") === "") {
-        return unoccupated_rows += 1;
+      var cost_cell, val;
+      if (type === "specialize") {
+        if ($("." + selector + "_specialize", this).attr("checked")) {
+          cost += 2;
+          return $(".specialize", this).fadeIn();
+        } else {
+          return $(".specialize", this).fadeOut();
+        }
       } else {
-        return cost += parseFloat(cost_cell.attr("value"));
+        if (type === "costs" || type === "knowledgepoints") {
+          cost_cell = $("." + selector, this);
+          val = parseInt(cost_cell.attr("value"));
+          if (val !== NaN) {
+            if (val < 0) {
+              cost_cell.attr("value", 0);
+            } else if (val > 6) {
+              cost_cell.attr("value", 6);
+            }
+          }
+        } else if (type === "nuyen") {
+          cost_cell = $("." + selector + "_nuyen", this);
+        } else if (type === "essence") {
+          cost_cell = $("." + selector + "_essence", this);
+        }
+        if (cost_cell.attr("value") === "") {
+          return unoccupated_rows += 1;
+        } else {
+          return cost += parseFloat(cost_cell.attr("value"));
+        }
       }
     });
     if (unoccupated_rows === 1) {
+      row = $("<tr/>").append($("<th/>").append($("<input/>", {
+        'type': "text"
+      })));
       if (columns === 2) {
-        $("#" + selector + " tbody").append($("<tr/>").append($("<th/>").append($("<input/>", {
-          'type': "text"
-        }))).append($("<td/>").append($("<input/>", {
+        row.append($("<td/>").append($("<input/>", {
           'type': "text",
           'class': selector
-        }))));
+        })));
       } else if (columns === 3) {
-        $("#" + selector + " tbody").append($("<tr/>").append($("<th/>").append($("<input/>", {
-          'type': "text"
-        }))).append($("<td/>").append($("<input/>", {
+        row.append($("<td/>").append($("<input/>", {
           'type': "text",
           'class': selector + "_nuyen"
         }))).append($("<td/>").append($("<input/>", {
           'type': "text",
           'class': selector + "_essence"
-        }))));
+        })));
       }
+      if (specialization) {
+        row.append($("<td/>").append($("<input/>", {
+          'type': "checkbox",
+          'class': "specialize_select"
+        })));
+      }
+      $("#" + selector + " tbody").append(row);
     }
-    return add_line_to_costs("" + selector + "_calculation", german_name, cost, type);
+    return add_line_to_costs("" + selector + "_" + type + "_calculation", german_name, cost, type === "specialize" ? "costs" : type);
   };
   $(function() {
     $(window).scroll(function() {
       return $("#head_display").stop().animate({
-        'top': $("body").scrollTop() + 10
+        'top': $(document).scrollTop() + 10
       });
     });
     $('#metatype').change(function(e) {
@@ -476,22 +507,32 @@
         return add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost);
       });
     });
+    $("#single_skills").delegate("input", "change", function() {
+      table_change("single_skills", "Einzelne Fertigkeiten", 2, true);
+      return table_change("single_skills", "Einzelne Fertigkeiten (Spez.)", 2, true, "specialize");
+    });
     $("#spells").delegate("input", "change", function() {
       return table_change("spells", "Zauber", 2);
     });
     $("#knowledge").delegate("input", "change", function() {
-      return table_change("knowledge", "Wissen", 2);
+      table_change("knowledge", "Wissen", 2, true, "knowledgepoints");
+      return table_change("knowledge", "Wissen (Spez.)", 2, true, "specialize");
     });
     $("#normal_items").delegate("input", "change", function() {
-      return table_change("normal_items", "Normale Gegenstaende", 3, "nuyen");
+      return table_change("normal_items", "Normale Gegenstaende", 3, false, "nuyen");
     });
     $("#bioware").delegate("input", "change", function() {
-      table_change("bioware", "Bioware", 3, "nuyen");
-      return table_change("bioware", "Bioware", 3, "essence");
+      table_change("bioware", "Bioware", 3, false, "nuyen");
+      return table_change("bioware", "Bioware", 3, false, "essence");
     });
     $("#cyberware").delegate("input", "change", function() {
-      table_change("cyberware", "Cyberware", 3, "nuyen");
-      return table_change("cyberware", "Cyberware", 3, "essence");
+      table_change("cyberware", "Cyberware", 3, false, "nuyen");
+      return table_change("cyberware", "Cyberware", 3, false, "essence");
+    });
+    $("input.additional_knowledge").change(function() {
+      var cost;
+      cost = parseInt($("input.additional_knowledge").attr("value")) * 2;
+      return add_line_to_costs("additional_knowledge", "Zus. Wissenspunkte", cost);
     });
     return $('#metatype, \
     .quality_cost, \
@@ -499,8 +540,11 @@
     .connections, \
     #special_profession, \
     #skill_groups input:first, \
+    #single_skill input:first, \
+    #single_skill input[type=checkbox]:first, \
     #spells input:first,\
     #knowledge input:first,\
+    #knowledge input[type=checkbox]:first,\
     #normal_items input:first,\
     #bioware input:first,\
     #cyberware input:first').change();

@@ -12,3 +12,5 @@ Missing Features
 * Multilinguality
 * Specialize only with Skill > 0
 * *Beschwoeren* and *Hexerei* should only be available to magicians, *Tasken* only to Technomancers
+* Bei Cyberware und Bioware ist die Essenz-Berechnung nicht ganz richtig. Du hast die summierte Cyberware Essenz und die summierte Bioware Essenz. Dann rechnest du deine gesammt Essenz minus die höhere der beiden Essenzen minus die hälfte der anderen.
+  * Beispiel: Essenz 6, Bioware verbraucht 4 Essenz, Cyberware 1 Essenz. Dann hast du 6-4-0,5 = 1,5 Essenz noch!
