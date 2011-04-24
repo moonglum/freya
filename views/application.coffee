@@ -397,6 +397,26 @@ $ ->
         cost += (relative_value * 4)
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
+  table_change= (selector, german_name) ->
+    unoccupated_rows = 0
+    cost = 0
+    $("##{selector} tbody tr").each ->
+      cost_cell = $(".#{selector}", this)
+      if cost_cell.attr("value") == ""
+        unoccupated_rows += 1
+      else
+        cost += parseInt(cost_cell.attr("value"))
+    if unoccupated_rows == 1
+      $("##{selector} tbody").append($("<tr/>")
+        .append($("<th/>").append($("<input/>", {'type' : "text"})))
+        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
+      )
+    
+    add_line_to_costs("#{selector}_calculation", german_name, cost)  
   
-  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession, #skill_groups input:first').change()
+  $("#spells").delegate("input", "change", ->
+    table_change("spells", "Zauber")
+  )
+  
+  $('#metatype, .quality_cost, .quality_earn, .connections, #special_profession, #skill_groups input:first, #spells input:first').change()
   

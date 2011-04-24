@@ -89,12 +89,13 @@
             %tr
               %th Name
               %td GP
-          - 5.times do |number|
-            %tr
-              %th
-                %input{:type => "text", :name => "good_quality_#{number}"}
-              %th
-                %input{:type => "text", :name => "good_quality_#{number}_cost", :class => "quality_cost"}
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "good_quality_#{number}"}
+                %th
+                  %input{:type => "text", :name => "good_quality_#{number}_cost", :class => "quality_cost"}
       
       %section#bad_qualities
         %h2 Handicap
@@ -103,12 +104,13 @@
             %tr
               %th Name
               %td GP
-          - 5.times do |number|
-            %tr
-              %th
-                %input{:type => "text", :name => "bad_quality_#{number}"}
-              %td
-                %input{:type => "text", :name => "bad_quality_#{number}_earn", :class => "quality_earn"}
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "bad_quality_#{number}"}
+                %td
+                  %input{:type => "text", :name => "bad_quality_#{number}_earn", :class => "quality_earn"}
     
       %section#skill_groups
         - @skill_groups.each do |group, members|
@@ -140,8 +142,8 @@
               %th Name
               %td Einfluss
               %td Loyalität
-          - 5.times do |number|
-            %tbody
+          %tbody
+            - 5.times do |number|
               %tr
                 %th
                   %input{:type => "text", :name => "connections_#{number}"}
@@ -150,7 +152,30 @@
                 %td
                   %input{:type => "text", :name => "connections_#{number}_cost_2", :class => "connections"}
       
+      %section#spells
+        %h2 Zauber
+        %table
+          %thead
+            %tr
+              %th Name
+              %td GP
+          %tbody
+            - 5.times do |number|
+              %tr
+                %th
+                  %input{:type => "text", :name => "spells_#{number}"}
+                %td
+                  %input{:type => "text", :name => "spells_#{number}_cost", :class => "spells"}
+      
       %section#nuyen
         %h2 Nuyen &yen;
         %label{:for => "nuyen"} Nuyen
         %input{:type => "text", :name => "nuyen", :disabled => "true"}
+  
+    %foot
+      %p 
+        Made with Ruby, Sinatra, HAML, SASS, CoffeeScript, jQuery, a lot of Mate and &#x2764;
+        %br
+        by 
+        %a{:href => 'https://github.com/moonglum'} moonglum
+      
