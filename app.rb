@@ -18,7 +18,7 @@ get "/" do
   haml :index 
 end
 
-get "/application.js" do
+get "/coffee.js" do
   coffee :application
 end
 

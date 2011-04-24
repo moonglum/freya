@@ -3,7 +3,10 @@
   %head
     %title Freya
     %script{:src => "jquery-1.5.2.min.js", :type => "text/javascript"}
-    %script{:src => "application.js", :type => "text/javascript"}
+    - configure :production do
+      %script{:src => "application.js", :type => "text/javascript"}
+    - configure :test, :development do
+      %script{:src => "coffee.js", :type => "text/javascript"}
     %link{:href => "style.css", :type => "text/css", :media => "screen", :rel => "stylesheet"}
   %body
     #head_display
