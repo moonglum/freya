@@ -218,33 +218,21 @@ races = {
 
 name_of_maximum = null
 
-add_line_to_costs = (category, description, costs, money=false) ->
-  if money
-    if $("#nuyen tbody .#{category}").length > 0
-      $("#nuyen tbody .#{category} td").attr("textContent", costs)
-    else
-      $("#nuyen tbody").append($("<tr/>", {'class': category})
-        .append($("<th/>", {'textContent': description}))
-        .append($("<td/>", {'textContent': costs}))
-      )
-    sum = 0
-    $("#nuyen tbody td").each (cell) ->
-      sum+= parseInt(this.textContent)
-    result = parseInt($("#nuyen thead td").text()) - sum
-    $("#nuyen tfoot td").text(result)
+add_line_to_costs = (category, description, costs, type="costs") ->
+  if $("##{type} tbody .#{category}").length > 0
+    $("##{type} tbody .#{category} td").attr("textContent", costs)
   else
-    if $("#costs tbody .#{category}").length > 0
-      $("#costs tbody .#{category} td").attr("textContent", costs)
-    else
-      $("#costs tbody").append($("<tr/>", {'class': category})
-        .append($("<th/>", {'textContent': description}))
-        .append($("<td/>", {'textContent': costs}))
-      )
-    sum = 0
-    $("#costs tbody td").each (cell) ->
-      sum+= parseInt(this.textContent)
-    result = parseInt($("#costs thead td").text()) - sum
-    $("#costs tfoot td").text(result)
+    $("##{type} tbody").append($("<tr/>", {'class': category})
+      .append($("<th/>", {'textContent': description}))
+      .append($("<td/>", {'textContent': costs}))
+    )
+  sum = 0
+  $("##{type} tbody td").each (cell) ->
+    sum+= parseFloat(this.textContent)
+  result = parseFloat($("##{type} thead td").text()) - sum
+  $("##{type} tfoot td").text(result)
+  
+  if type == "costs"
     $("#nuyen thead td").text(Math.min(result, 50) * 5000)
 
 build_points_for_attributes = ->
@@ -257,6 +245,29 @@ build_points_for_attributes = ->
   sum+= 15 if name_of_maximum?
   
   return sum
+
+table_change= (selector, german_name, columns, type) ->
+  unoccupated_rows = 0
+  cost = 0
+  $("##{selector} tbody tr").each ->
+    if type == undefined
+      cost_cell = $(".#{selector}", this)
+    else if type == "nuyen"
+      cost_cell = $(".#{selector}_nuyen", this)
+    else if type == "essence"
+      cost_cell = $(".#{selector}_essence", this)
+      
+    if cost_cell.attr("value") == ""
+      unoccupated_rows += 1
+    else
+      cost += parseFloat(cost_cell.attr("value"))
+  if unoccupated_rows == 1
+    $("##{selector} tbody").append($("<tr/>")
+      .append($("<th/>").append($("<input/>", {'type' : "text"})))
+      .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
+    )
+  
+  add_line_to_costs("#{selector}_calculation", german_name, cost, type)
 
 $ -> 
   $(window).scroll ->
@@ -411,41 +422,26 @@ $ ->
         cost += (relative_value * 4)
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
-  table_change= (selector, german_name, costs_money) ->
-    unoccupated_rows = 0
-    cost = 0
-    $("##{selector} tbody tr").each ->
-      cost_cell = $(".#{selector}", this)
-      if cost_cell.attr("value") == ""
-        unoccupated_rows += 1
-      else
-        cost += parseInt(cost_cell.attr("value"))
-    if unoccupated_rows == 1
-      $("##{selector} tbody").append($("<tr/>")
-        .append($("<th/>").append($("<input/>", {'type' : "text"})))
-        .append($("<td/>").append($("<input/>", {'type' : "text", 'class' : selector})))
-      )
-    
-    add_line_to_costs("#{selector}_calculation", german_name, cost, costs_money)  
-  
   $("#spells").delegate("input", "change", ->
-    table_change("spells", "Zauber")
+    table_change("spells", "Zauber", 2)
   )
   
   $("#knowledge").delegate("input", "change", ->
-    table_change("knowledge", "Wissen")
+    table_change("knowledge", "Wissen", 2)
   )
   
   $("#normal_items").delegate("input", "change", ->
-    table_change("normal_items", "Normale Gegenstaende", true)
+    table_change("normal_items", "Normale Gegenstaende", 3, "nuyen")
   )
   
   $("#bioware").delegate("input", "change", ->
-    table_change("bioware", "Bioware", true)
+    table_change("bioware", "Bioware", 3, "nuyen")
+    table_change("bioware", "Bioware", 3, "essence")
   )
   
   $("#cyberware").delegate("input", "change", ->
-    table_change("cyberware", "Cyberware", true)
+    table_change("cyberware", "Cyberware", 3, "nuyen")
+    table_change("cyberware", "Cyberware", 3, "essence")
   )
   
   $('#metatype, 

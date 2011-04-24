@@ -7,6 +7,7 @@
     %link{:href => "style.css", :type => "text/css", :media => "screen", :rel => "stylesheet"}
   %body
     #head_display
+      %h2 Kosten
       %table#costs
         %thead
           %tr
@@ -17,6 +18,7 @@
           %tr
             %th Übrige GP
             %td 400
+      %h2 Nuyen
       %table#nuyen
         %thead
           %tr
@@ -26,6 +28,17 @@
         %tfoot
           %tr
             %th Übrige &yen;
+            %td 0
+      %h2 Essenz
+      %table#essence
+        %thead
+          %tr
+            %th Anfangs Essenz
+            %td 6
+        %tbody
+        %tfoot
+          %tr
+            %th Übrige Essenz
             %td 0
           
     %form
@@ -84,8 +97,6 @@
       
       %section#calculated_attributes
         %h2 Berechnete Attribute
-        %label{:for => "essence"} Essenz
-        %input{:type => "text", :name => "essence", :disabled => "true", :value => 6}
         %label{:for => "initiative"} Initiative
         %input{:type => "text", :name => "initiative", :disabled => "true"}
         %label{:for => "physical_damage"} Körperliche Schadensleiste
@@ -206,7 +217,7 @@
                 %th
                   %input{:type => "text", :name => "normal_item_#{number}"}
                 %td
-                  %input{:type => "text", :name => "normal_item_#{number}_cost", :class => "normal_items"}
+                  %input{:type => "text", :name => "normal_item_#{number}_cost", :class => "normal_items_nuyen"}
 
       %section#bioware
         %h2 Bioware
@@ -215,13 +226,16 @@
             %tr
               %th Name
               %td &yen;
+              %td Essenz
           %tbody
             - 5.times do |number|
               %tr
                 %th
                   %input{:type => "text", :name => "bioware_#{number}"}
                 %td
-                  %input{:type => "text", :name => "bioware_#{number}_cost", :class => "bioware"}
+                  %input{:type => "text", :name => "bioware_#{number}_nuyen_cost", :class => "bioware_nuyen"}
+                %td
+                  %input{:type => "text", :name => "bioware_#{number}_essence_cost", :class => "bioware_essence"}
                   
       %section#cyberware
         %h2 Cyberware
@@ -230,13 +244,16 @@
             %tr
               %th Name
               %td &yen;
+              %td Essenz
           %tbody
             - 5.times do |number|
               %tr
                 %th
                   %input{:type => "text", :name => "cyberware_#{number}"}
                 %td
-                  %input{:type => "text", :name => "cyberware_#{number}_cost", :class => "cyberware"}
+                  %input{:type => "text", :name => "cyberware_#{number}_nuyen_cost", :class => "cyberware_nuyen"}
+                %td
+                  %input{:type => "text", :name => "cyberware_#{number}_essence_cost", :class => "cyberware_essence"}
   
     %foot
       %p 

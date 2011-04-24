@@ -10,5 +10,4 @@ Missing Features
 * Multilinguality
 * Maximum for Spells, Knowledge Skills
 * Bioware and Cyberware additionally consume essence
-
-* Fertigkeiten nur für Zauberer/Technomancer - noch einfügen.
+* Add Mage/Technomancer only skills
