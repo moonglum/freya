@@ -10,3 +10,4 @@ Missing Features
 
 * Currently, it is not checked, if or if not the rule for maxima in the skills are met.
 * Multilinguality
+* Specialize only with Skill > 0

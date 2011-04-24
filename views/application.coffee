@@ -234,6 +234,8 @@ add_line_to_costs = (category, description, costs, type="costs") ->
   
   if type == "costs"
     $("#nuyen thead td").text(Math.min(result, 50) * 5000)
+    knp = parseInt($("input[name=logic]").attr("value")) + parseInt($("input[name=intuition]").attr("value"))
+    $("#knowledgepoints thead td").text(knp * 3)
 
 build_points_for_attributes = ->
   sum = 0
@@ -257,13 +259,17 @@ table_change= (selector, german_name, columns, specialization=false, type="costs
       else
         $(".specialize", this).fadeOut()
     else
-      if type == "costs"
-        cost_cell = $(".#{selector}", this)
-      else if type == "nuyen"
+      if type == "nuyen"
         cost_cell = $(".#{selector}_nuyen", this)
       else if type == "essence"
         cost_cell = $(".#{selector}_essence", this)
-      else 
+      else # type == "costs" || "knowledgepoints"
+       cost_cell = $(".#{selector}", this)
+       cost = parseFloat(cost_cell.attr("value"))
+       if cost < 0
+         cost_cell.attr("value", 0)
+       else if cost >= 6
+         cost_cell.attr("value", 6)
       
       if cost_cell.attr("value") == ""
         unoccupated_rows += 1
@@ -448,7 +454,7 @@ $ ->
   )
   
   $("#knowledge").delegate("input", "change", ->
-    table_change("knowledge", "Wissen", 2, true)
+    table_change("knowledge", "Wissen", 2, true, "knowledgepoints")
     table_change("knowledge", "Wissen (Spez.)", 2, true, "specialize")
   )
   
