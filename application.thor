@@ -3,7 +3,7 @@ require "coffee-script"
 class Application < Thor
   include Thor::Actions
   
-  desc "deploy", "prepare and deploy"
+  desc "deploy", "prepare and deploy to heroku"
   def deploy
     javascript = CoffeeScript.compile File.read("views/application.coffee")
     create_file "public/application.js", javascript

@@ -3,6 +3,8 @@ Freya
 
 *Scandinavian Mythology:* the goddess of love and of the night, sister of Frey. Mother to Thor.
 
+Run `thor application:deploy` to prepare everything for heroku deployment and unleash the goddess.
+
 Missing Features
 ----------------
 
@@ -10,3 +12,4 @@ Missing Features
 * Multilinguality
 * Maximum for Spells, Knowledge Skills
 * Add Mage/Technomancer only skills
+* Skills without Group?!
