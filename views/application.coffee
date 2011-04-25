@@ -345,6 +345,9 @@ $ ->
     
     add_line_to_costs("attributes", "Attribute", build_points_for_attributes())
   
+  $("input[name=name]").change ->
+    $("title").text("Freya: " + $("input[name=name]").attr("value"))
+  
   $("#special_attributes input").change ->
     current_value = $(this).attr("value")
     if current_value < $(this).data("min_value") or $(this).attr("value") == ""

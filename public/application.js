@@ -385,6 +385,9 @@
       $("#calculated_attributes input[name=stun_damage]").attr("value", stun_damage);
       return add_line_to_costs("attributes", "Attribute", build_points_for_attributes());
     });
+    $("input[name=name]").change(function() {
+      return $("title").text("Freya: " + $("input[name=name]").attr("value"));
+    });
     $("#special_attributes input").change(function() {
       var current_value, sum;
       current_value = $(this).attr("value");
