@@ -463,7 +463,7 @@ $ ->
   )
   
   $("#normal_items").delegate("input", "change", ->
-    table_change("normal_items", "Normale Gegenstaende", 3, false, "nuyen")
+    table_change("normal_items", "Normale Gegenstaende", 2, false, "nuyen")
   )
   
   $("#bioware").delegate("input", "change", ->

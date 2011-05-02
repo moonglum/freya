@@ -3,14 +3,29 @@ Freya
 
 *Scandinavian Mythology:* the goddess of love and of the night, sister of Frey. Mother to Thor.
 
-Run `thor application:deploy` to prepare everything for heroku deployment and unleash the goddess.
+With Freya you can create Shadow Runners. Release it on Heroku (see Deployment) or add it to your Pow to get going.
 
-Missing Features
-----------------
+*Freya was created two days before we had to create our runners. So I abandoned the test-driven-development style I use for my other projects to get it out fast. I will add those tests soon.*
+
+Missing Features & Bugs
+-----------------------
 
 * Currently, it is not checked, if or if not the rule for maxima in the skills are met.
 * Multilinguality
 * Specialize only with Skill > 0
 * *Beschwoeren* and *Hexerei* should only be available to magicians, *Tasken* only to Technomancers
-* Bei Cyberware und Bioware ist die Essenz-Berechnung nicht ganz richtig. Du hast die summierte Cyberware Essenz und die summierte Bioware Essenz. Dann rechnest du deine gesammt Essenz minus die höhere der beiden Essenzen minus die hälfte der anderen.
-  * Beispiel: Essenz 6, Bioware verbraucht 4 Essenz, Cyberware 1 Essenz. Dann hast du 6-4-0,5 = 1,5 Essenz noch!
+* Essence Calculation is wrong, should be: Essence - max(Cyberware.karma, Bioware.karma) - 1/2 min(Cyberware.karma, Bioware.karma)
+* Single Skills cost 4 GP each Point
+* Make it printable
+* Save online for further changes, for example spend Karma
+* No Testing, would prefer Jasmine as Testing Framework
+
+Deployment
+----------
+
+Freya is built to be deployed to Heroku. Unfortunately, CoffeeScript is not yet supported on Heroku, so it has to be compiled beforehand. So add your Heroku as a remote branch and then run `thor application:deploy` to prepare everything for heroku deployment and unleash the goddess.
+
+License
+-------
+
+All Game Mechanics are created and licensed by [Catalyst Game Labs](http://www.catalystgamelabs.com/). You guys rock. Freya is released under MIT-license. See LICENSE.txt for further details. 
