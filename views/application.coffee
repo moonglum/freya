@@ -493,6 +493,7 @@ $ ->
     #knowledge input[type=checkbox]:first,
     #normal_items input:first,
     #bioware input:first,
-    #cyberware input:first')
+    #cyberware input:first,
+    .specialize')
   .change()
   
