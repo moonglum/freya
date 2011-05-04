@@ -260,7 +260,7 @@
     }
     return sum;
   };
-  table_change = function(selector, german_name, columns, specialization, type) {
+  table_change = function(selector, german_name, columns, specialization, type, costs_per_point, extra_costs_for_maximum) {
     var cost, row, unoccupated_rows;
     if (specialization == null) {
       specialization = false;
@@ -268,10 +268,16 @@
     if (type == null) {
       type = "costs";
     }
+    if (costs_per_point == null) {
+      costs_per_point = 1;
+    }
+    if (extra_costs_for_maximum == null) {
+      extra_costs_for_maximum = false;
+    }
     unoccupated_rows = 0;
     cost = 0;
     $("#" + selector + " tbody tr").each(function() {
-      var cost_cell, val;
+      var cost_cell, cost_cell_value, val;
       if (type === "specialize") {
         if ($("." + selector + "_specialize", this).attr("checked")) {
           cost += 2;
@@ -298,7 +304,11 @@
         if (cost_cell.attr("value") === "") {
           return unoccupated_rows += 1;
         } else {
-          return cost += parseFloat(cost_cell.attr("value"));
+          cost_cell_value = parseFloat(cost_cell.attr("value"));
+          cost += cost_cell_value * costs_per_point;
+          if (extra_costs_for_maximum && cost_cell_value === 6) {
+            return cost += 2;
+          }
         }
       }
     });
@@ -493,9 +503,10 @@
           if (absolute_value < 0) {
             relative_value = 0;
             absolute_value = 0;
-          } else if (absolute_value > 6) {
+          } else if (absolute_value >= 6) {
             relative_value = 6 - group_value;
             absolute_value = group_value + relative_value;
+            cost += 2;
           }
           $(".relative", this).attr("value", relative_value);
           $(".absolute", this).attr("value", absolute_value);
@@ -511,18 +522,18 @@
       });
     });
     $("#single_skills").delegate("input", "change", function() {
-      table_change("single_skills", "Einzelne Fertigkeiten", 2, true);
+      table_change("single_skills", "Einzelne Fertigkeiten", 2, true, "costs", 4, true);
       return table_change("single_skills", "Einzelne Fertigkeiten (Spez.)", 2, true, "specialize");
     });
     $("#spells").delegate("input", "change", function() {
-      return table_change("spells", "Zauber", 2);
+      return table_change("spells", "Zauber", 2, false, "costs", 3);
     });
     $("#knowledge").delegate("input", "change", function() {
       table_change("knowledge", "Wissen", 2, true, "knowledgepoints");
       return table_change("knowledge", "Wissen (Spez.)", 2, true, "specialize");
     });
     $("#normal_items").delegate("input", "change", function() {
-      return table_change("normal_items", "Normale Gegenstaende", 3, false, "nuyen");
+      return table_change("normal_items", "Normale Gegenstaende", 2, false, "nuyen");
     });
     $("#bioware").delegate("input", "change", function() {
       table_change("bioware", "Bioware", 3, false, "nuyen");
@@ -550,6 +561,7 @@
     #knowledge input[type=checkbox]:first,\
     #normal_items input:first,\
     #bioware input:first,\
-    #cyberware input:first').change();
+    #cyberware input:first,\
+    .specialize').change();
   });
 }).call(this);
