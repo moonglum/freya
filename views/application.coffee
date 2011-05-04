@@ -248,7 +248,7 @@ build_points_for_attributes = ->
   
   return sum
 
-table_change= (selector, german_name, columns, specialization=false, type="costs") ->
+table_change= (selector, german_name, columns, specialization=false, type="costs", costs_per_point = 1, extra_costs_for_maximum = false) ->
   unoccupated_rows = 0
   cost = 0
   $("##{selector} tbody tr").each ->
@@ -275,7 +275,10 @@ table_change= (selector, german_name, columns, specialization=false, type="costs
       if cost_cell.attr("value") == ""
         unoccupated_rows += 1
       else
-        cost += parseFloat(cost_cell.attr("value"))
+        cost_cell_value = parseFloat(cost_cell.attr("value"))
+        cost += (cost_cell_value * costs_per_point)
+        if extra_costs_for_maximum and cost_cell_value == 6
+          cost += 2
   if unoccupated_rows == 1
     row = $("<tr/>").append($("<th/>").append($("<input/>", {'type' : "text"})))
     
@@ -433,9 +436,11 @@ $ ->
         if absolute_value < 0
           relative_value = 0
           absolute_value = 0
-        else if absolute_value > 6
+        else if absolute_value >= 6
           relative_value = 6 - group_value
           absolute_value = group_value + relative_value
+          # Points for maximum
+          cost += 2
         $(".relative", this).attr("value", relative_value)
         $(".absolute", this).attr("value", absolute_value)
         
@@ -449,12 +454,12 @@ $ ->
       add_line_to_costs("skill_groups", "Fertigkeitengruppen", cost)  
       
   $("#single_skills").delegate("input", "change", ->
-    table_change("single_skills", "Einzelne Fertigkeiten", 2, true)
+    table_change("single_skills", "Einzelne Fertigkeiten", 2, true, "costs", 4, true)
     table_change("single_skills", "Einzelne Fertigkeiten (Spez.)", 2, true, "specialize")
   )
   
   $("#spells").delegate("input", "change", ->
-    table_change("spells", "Zauber", 2)
+    table_change("spells", "Zauber", 2, false, "costs", 3)
   )
   
   $("#knowledge").delegate("input", "change", ->
