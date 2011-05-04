@@ -5,22 +5,9 @@ Freya
 
 With Freya you can create Shadow Runners. Release it on Heroku (see Deployment) or add it to your Pow to get going.
 
-*Freya was created two days before we had to create our runners. So I abandoned the test-driven-development style I use for my other projects to get it out fast. I will add those tests soon.*
+*Freya was created two days before we had to create our runners. So I abandoned the test-driven-development style I use for my other projects to get it out fast. I will add those tests soon. For known bugs, see the issues page.*
 
 Freya was made with Ruby, Sinatra, HAML, SASS, CoffeeScript, jQuery, a lot of Mate and &#x2764;. Most coding was done outside, because our craft doesn't need an office.
-
-Missing Features & Bugs
------------------------
-
-* Currently, it is not checked, if or if not the rule for maxima in the skills are met.
-* Multilinguality
-* Specialize only with Skill > 0
-* *Beschwoeren* and *Hexerei* should only be available to magicians, *Tasken* only to Technomancers
-* Essence Calculation is wrong, should be: Essence - max(Cyberware.karma, Bioware.karma) - 1/2 min(Cyberware.karma, Bioware.karma)
-* Single Skills cost 4 GP each Point
-* Make it printable
-* Save online for further changes, for example spend Karma
-* No Testing, would prefer Jasmine as Testing Framework
 
 Deployment
 ----------
